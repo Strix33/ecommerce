@@ -1,6 +1,4 @@
-const { sign } = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const User = require("./User");
 
 const ProductSchema = new mongoose.Schema({
     name: {
@@ -97,8 +95,8 @@ const ProductSchema = new mongoose.Schema({
         height : Number,
     },
     weight: Number,
-}, 
-{ timestamps: true }
+},
+{ timestamps: true, suppressReservedKeysWarning: true }
 );
 
 module.exports = mongoose.model("Product", ProductSchema);

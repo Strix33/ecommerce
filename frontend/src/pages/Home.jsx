@@ -1,83 +1,74 @@
-
-import Hero from '../components/Layout/Hero'
-import FeaturedCollection from '../components/Product/FeaturedCollection'
-import FeaturesSection from '../components/Product/FeaturesSection'
-import GenderCollectionCenter from '../components/Product/GenderCollectionCenter'
-import NewArrivals from '../components/Product/NewArrivals'
-import ProductDetails from '../components/Product/ProductDetails'
-import ProductGrid from '../components/Product/ProductGrid'
-
-
-const placeholderProducts=[
-  {
-    _id:1,
-    name:"Product 1",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=3"}],
-  },
-  {
-    _id:2,
-    name:"Product 2",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=4"}],
-  },
-  {
-    _id:3,
-    name:"Product 3",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=5"}],
-  },
-  {
-    _id:4,
-    name:"Product 4",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=6"}],
-  },
-  {
-    _id:5,
-    name:"Product 5",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=7"}],
-  },
-  {
-    _id:6,
-    name:"Product 6",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=8"}],
-  },
-  {
-    _id:7,
-    name:"Product 7",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=9"}],
-  },
-  {
-    _id:8,
-    name:"Product 8",
-    price:100,
-    images :[{url: "https://picsum.photos/500/500?random=10"}],
-  },
-];
+import React, { useContext, useEffect, useState } from 'react';
+import Hero from '../components/Layout/Hero';
+import GenderCollectionCenter from '../components/Product/GenderCollectionCenter';
+import NewArrivals from '../components/Product/NewArrivals';
+import ProductGrid from '../components/Product/ProductGrid';
+import FeaturedCollection from '../components/Product/FeaturedCollection';
+import FeaturesSection from '../components/Product/FeaturesSection';
+import { ProductContext } from '../context/ProductContext';
 
 const Home = () => {
-  return (
-    <div>
-        <Hero/>
-        <GenderCollectionCenter/>
-        <NewArrivals/>
-        <h2 className='text-3xl text-center font-bold mb-4'>Best Seller</h2>
-        <ProductDetails/>
+    const [bestSellers, setBestSellers] = useState([]);
+    const [womenTopWears, setWomenTopWears] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-        <div className="container mx-auto">
-          <h2 className="text-3xl text-center font-bold mb-4">
-            Top Wears for Women
-          </h2>
-          <ProductGrid products={placeholderProducts}/>
+    const { fetchHomePromotions } = useContext(ProductContext);
+
+    useEffect(() => {
+        const loadHomeData = async () => {
+            try {
+                // Fetch best sellers
+                const bsData = await fetchHomePromotions("best-sellers");
+                setBestSellers(bsData);
+
+                // Fetch Women's Top Wear for the bottom section
+                const response = await fetch("http://localhost:9000/api/products?gender=Women&category=Top Wear&limit=4");
+                if (response.ok) {
+                    const data = await response.json();
+                    setWomenTopWears(data.products || []);
+                }
+            } catch (err) {
+                console.error("Failed to load Home page dynamic collections:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadHomeData();
+    }, []);
+
+    return (
+        <div>
+            <Hero />
+            <GenderCollectionCenter />
+            
+            <NewArrivals />
+
+            <div className="container mx-auto py-12 px-6">
+                <h2 className='text-3xl text-center font-bold mb-8 uppercase tracking-wider'>
+                    Best Sellers
+                </h2>
+                {loading ? (
+                    <div className="text-center py-6 text-gray-500">Loading best sellers...</div>
+                ) : (
+                    <ProductGrid products={bestSellers} />
+                )}
+            </div>
+
+            <div className="container mx-auto py-12 px-6">
+                <h2 className="text-3xl text-center font-bold mb-8 uppercase tracking-wider">
+                    Top Wears for Women
+                </h2>
+                {loading ? (
+                    <div className="text-center py-6 text-gray-500">Loading women apparel...</div>
+                ) : (
+                    <ProductGrid products={womenTopWears} />
+                )}
+            </div>
+            
+            <FeaturedCollection />
+            <FeaturesSection />
         </div>
-        <FeaturedCollection/>
-        <FeaturesSection/>
-    </div>
-  )
+    );
 }
 
-export default Home
+export default Home;

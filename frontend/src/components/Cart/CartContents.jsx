@@ -1,57 +1,69 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { RiDeleteBin3Line } from "react-icons/ri";
-const CartContents = () => {
-    
-const cartProducts =[
-{
-productId: 1,
-name: "T-shirt",
-size: "M", 
-color: "Red",
-quantity: 1,
-price: 15,
-image:"https://picsum.photos/200?random=1",
-},
-{
-productId: 2,
-name: "Jeans",
-size: "L",
-color: "Blue", 
-quantity: 1, 
-price: 25,
-image: "https://picsum.photos/200? random=",
-}
-];
+import { CartContext } from '../../context/CartContext';
 
-  return (
-    <div>CartContents
-    {
-        cartProducts.map((product,index)=>(
-            <div key = {index} className="flex items-start justify-between py-4 border-b">
-                <div className="flex items-start ">
-                    <img src ={product.image} alt ={product.name} className='w-20 h-24 object-cover mr-4 rounded' />
-                    <div>
-                        <h3>{product.name}</h3>
-                        <p className="text-sm text-gray-500">size : {product.size} | color : {product.color}</p>
-                        <div className="flex items-center mt-2">
-                            <button className="border rounded px-2 py-1 text-xl font-medium">-</button>
-                            <span className='mx-4'>{product.quantity}</span>
-                            <button className="border rounded px-2 py-1 text-xl font-medium">+</button>
+const CartContents = () => {
+    const { cartItems, updateQuantity, removeFromCart, totalPrice } = useContext(CartContext);
+
+    if (cartItems.length === 0) {
+        return (
+            <div className="text-center py-8 text-gray-500 font-medium">
+                Your cart is empty. Start shopping!
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            {cartItems.map((product, index) => (
+                <div key={index} className="flex items-start justify-between py-4 border-b border-gray-100">
+                    <div className="flex items-start">
+                        <img 
+                            src={product.image || "https://picsum.photos/150?random=1"} 
+                            alt={product.name} 
+                            className='w-20 h-24 object-cover mr-4 rounded shadow-sm border border-gray-100' 
+                        />
+                        <div>
+                            <h3 className="font-semibold text-gray-900 text-sm">{product.name}</h3>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                                Size: <span className="font-bold text-gray-700 uppercase">{product.size}</span> | Color: <span className="font-bold text-gray-700">{product.color}</span>
+                            </p>
+                            <div className="flex items-center mt-3">
+                                <button 
+                                    onClick={() => updateQuantity(product.productId, product.size, product.color, product.quantity - 1)}
+                                    className="border border-gray-200 rounded px-2.5 py-0.5 font-bold text-gray-600 hover:bg-gray-50 active:scale-95 transition"
+                                >
+                                    -
+                                </button>
+                                <span className='mx-3 font-semibold text-sm w-4 text-center'>{product.quantity}</span>
+                                <button 
+                                    onClick={() => updateQuantity(product.productId, product.size, product.color, product.quantity + 1)}
+                                    className="border border-gray-200 rounded px-2.5 py-0.5 font-bold text-gray-600 hover:bg-gray-50 active:scale-95 transition"
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <div className="text-right flex flex-col items-end justify-between h-24">
+                        <p className="font-bold text-gray-900">${(product.price * product.quantity).toLocaleString()}</p>
+                        <button 
+                            onClick={() => removeFromCart(product.productId, product.size, product.color)}
+                            title="Remove item"
+                            className="hover:scale-105 active:scale-95 transition"
+                        >
+                            <RiDeleteBin3Line className='h-5 w-5 text-red-500 hover:text-red-600'/>
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <p>${product.price.toLocaleString()}</p>
-                    <button>
-                        <RiDeleteBin3Line className='h-6 w-6 mt-2 text-red-600'/>
-                    </button>
-                </div>
+            ))}
+            
+            <div className="mt-6 flex justify-between items-center bg-gray-50 p-4 rounded-lg">
+                <span className="font-semibold text-gray-700">Subtotal:</span>
+                <span className="text-xl font-bold text-black">${totalPrice.toLocaleString()}</span>
             </div>
-        ))}
-
-    </div>
-
-  )
+        </div>
+    )
 }
 
-export default CartContents
+export default CartContents;
