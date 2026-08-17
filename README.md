@@ -79,6 +79,8 @@ A complete **MERN stack e-commerce application** with both **user panel** and **
 
 <img width="1635" height="872" alt="image" src="https://github.com/user-attachments/assets/eb9771d8-d3fe-4f56-bd98-598622991676" />
 
+### Order Details
+<img width="1918" height="827" alt="image" src="https://github.com/user-attachments/assets/9d0dd9ec-9c44-4552-9dad-22dff547bb91" />
 
 
 
