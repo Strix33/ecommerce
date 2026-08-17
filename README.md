@@ -57,19 +57,28 @@ A complete **MERN stack e-commerce application** with both **user panel** and **
 ## 📸 Screenshots
 
 ### 👕 Product Page
-<img width="1846" height="968" alt="image" src="https://github.com/user-attachments/assets/109eb564-35a2-4c7c-bb4b-fc01cc906259" />
+<img width="1917" height="867" alt="image" src="https://github.com/user-attachments/assets/850de8bf-2ca6-46b0-a862-fd778850fcd6" />
+
+### Product Preview
+<img width="1392" height="842" alt="image" src="https://github.com/user-attachments/assets/c79bd522-6882-450a-bcaf-776c750c4214" />
 
 
 
 ### 🛒 Cart
 
-<img width="525" height="1019" alt="image" src="https://github.com/user-attachments/assets/ac1b5660-c1f8-495f-a4ff-36dc56e1b618" />
+<img width="1120" height="832" alt="image" src="https://github.com/user-attachments/assets/287bb340-59f3-4f8f-b18a-c34fecc8a8bb" />
+
 
 
 ### 💳 Checkout (PayPal)
-<img width="1843" height="915" alt="image" src="https://github.com/user-attachments/assets/fa164e03-cb0c-46b1-9f2c-1815cf8f8fa7" />
+<img width="1908" height="810" alt="image" src="https://github.com/user-attachments/assets/77dc8170-9edc-431f-9c05-4a083f1436b5" />
+
 
 ### 🛠️ Admin Panel
-<img width="1852" height="1030" alt="image" src="https://github.com/user-attachments/assets/2158cb37-7ea8-4583-b1f8-c62a6ffa5d85" />
+<img width="1918" height="868" alt="image" src="https://github.com/user-attachments/assets/db0ab715-5eec-4bdc-afeb-caea03bbb86a" />
+
+<img width="1635" height="872" alt="image" src="https://github.com/user-attachments/assets/eb9771d8-d3fe-4f56-bd98-598622991676" />
+
+
 
 
