@@ -16,9 +16,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = process.env.PORT || 3000;
+// Middleware to guarantee DB connection before executing routes (Serverless compatible)
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+    } catch (error) {
+        console.error("DB Connection Middleware error:", error);
+    }
+    next();
+});
 
-connectDB();
+const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
     res.send("WELCOME TO HYPEWEAR API");
