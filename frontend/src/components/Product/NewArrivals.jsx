@@ -40,7 +40,7 @@ const NewArrivals = () => {
     }
 
     const scroll = (direction) => {
-        const scrollAmount = direction === "left" ? -300 : 300;
+        const scrollAmount = direction === "left" ? -320 : 320;
         scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
 
@@ -67,54 +67,66 @@ const NewArrivals = () => {
     if (arrivalProducts.length === 0) return null;
 
     return (
-        <section className='py-16 px-4 lg:px-0'>
-            <div className="container mx-auto text-center mb-10 relative">
-                <h2 className="text-3xl font-bold mb-4">
-                    Explore New Arrivals
-                </h2>
-                <p className='text-lg text-gray-600 mb-8 max-w-2xl mx-auto'>
-                    Discover the latest styles straight off the runway, freshly added to keep your wardrobe on the cutting edge of fashion. 
-                </p>
-                <div className="absolute right-0 bottom-[-30px] flex space-x-2 z-10">
+        <section className='py-12 px-4 sm:px-6 max-w-7xl mx-auto overflow-hidden'>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">
+                        SEASONAL HIGHLIGHTS
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl font-black uppercase font-heading text-slate-950 tracking-tight">
+                        New Arrivals
+                    </h2>
+                </div>
+                <div className="flex space-x-2">
                     <button 
                         onClick={() => scroll("left")} 
                         disabled={!canScrollLeft} 
-                        className={`p-2 rounded border transition ${canScrollLeft ? "bg-white text-black hover:bg-gray-50" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+                        className={`p-2.5 rounded-xl border transition-all ${canScrollLeft ? "bg-white border-slate-200 text-slate-800 hover:bg-slate-950 hover:text-white shadow-xs" : "bg-slate-100 border-slate-200 text-slate-300 cursor-not-allowed"}`}
                     >
-                        <FiChevronLeft className='text-2xl'/>
+                        <FiChevronLeft className='text-lg'/>
                     </button>
                     <button 
                         onClick={() => scroll("right")} 
                         disabled={!canScrollRight}
-                        className={`p-2 rounded border transition ${canScrollRight ? "bg-white text-black hover:bg-gray-50" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
+                        className={`p-2.5 rounded-xl border transition-all ${canScrollRight ? "bg-white border-slate-200 text-slate-800 hover:bg-slate-950 hover:text-white shadow-xs" : "bg-slate-100 border-slate-200 text-slate-300 cursor-not-allowed"}`}
                     >
-                        <FiChevronRight className='text-2xl'/>
+                        <FiChevronRight className='text-lg'/>
                     </button>
                 </div>
             </div>
             
             <div 
                 ref={scrollRef}
-                className={`container mx-auto overflow-x-scroll flex space-x-6 relative pb-4 select-none scrollbar-hide ${isDragging ? "cursor-grabbing" : "cursor-grab"}`} 
+                className={`overflow-x-auto flex space-x-5 pb-4 select-none no-scrollbar ${isDragging ? "cursor-grabbing" : "cursor-grab"}`} 
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUpOrLeave}
                 onMouseLeave={handleMouseUpOrLeave}
             >
                 {arrivalProducts.map((product) => (
-                    <div key={product._id} className='min-w-[80%] sm:min-w-[45%] lg:min-w-[30%] relative group overflow-hidden rounded-lg shadow-sm border border-gray-100 bg-white'>
-                        <img 
-                            src={product.images && product.images.length > 0 ? product.images[0].url : "https://picsum.photos/500/500?random=1"}
-                            alt={product.images && product.images.length > 0 ? product.images[0].alt : product.name} 
-                            className='w-full h-[450px] object-cover rounded-lg group-hover:scale-105 transition-transform duration-500'
-                            draggable="false"
-                        />
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(0,0,0,0.85)] via-[rgba(0,0,0,0.6)] to-transparent text-white p-6 rounded-b-lg">
-                            <Link to={`/product/${product._id}`} className='block'>
-                                <h4 className="font-semibold text-lg hover:underline transition-all line-clamp-1">
+                    <div key={product._id} className='min-w-[260px] sm:min-w-[290px] max-w-[310px] relative group overflow-hidden rounded-2xl clean-card clean-card-hover flex-shrink-0'>
+                        <div className="relative aspect-[3/4] overflow-hidden bg-slate-100">
+                            <img 
+                                src={product.images && product.images.length > 0 ? product.images[0].url : "https://picsum.photos/500/500?random=1"}
+                                alt={product.images && product.images.length > 0 ? product.images[0].alt : product.name} 
+                                className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out'
+                                draggable="false"
+                            />
+                            <span className="absolute top-3 left-3 bg-slate-950 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded shadow-xs">
+                                NEW
+                            </span>
+                        </div>
+                        <div className="p-4 bg-white">
+                            <Link to={`/product/${product._id}`} className='block group-hover:text-slate-600 transition-colors'>
+                                <h4 className="font-bold text-xs text-slate-900 line-clamp-1 mb-1">
                                     {product.name}
                                 </h4>
-                                <p className='mt-1 text-red-400 font-bold'>${product.price}</p>
+                                <div className="flex items-center justify-between mt-2">
+                                    <span className='text-slate-950 font-bold text-sm'>${product.price}</span>
+                                    {product.discountPrice && (
+                                        <span className='text-slate-400 line-through text-xs'>${product.discountPrice}</span>
+                                    )}
+                                </div>
                             </Link>
                         </div>
                     </div>
@@ -125,3 +137,4 @@ const NewArrivals = () => {
 }
 
 export default NewArrivals;
+

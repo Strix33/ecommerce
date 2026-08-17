@@ -10,20 +10,24 @@ const SortOptions = () => {
     setSearchParams(searchParams)
   }
   return (
-    <div className="mb-4 flex items-center justify-end">
-      <select
-      id='sort'
-      onChange={handleSortChange}
-      value={searchParams.get("sortBy") || ""}
-      className='border p-2 rounded-md focus:outline-none'>
-        <option value="">Default</option>
-        <option value="priceAsc">Price: Low to High</option>
-        <option value="priceDesc">Price: High to Low</option>
-        <option value="popularity">Popularity</option>
-
-      </select>
+    <div className="flex items-center justify-end">
+      <div className="relative">
+        <select
+          id='sort'
+          onChange={handleSortChange}
+          value={searchParams.get("sortBy") || ""}
+          className='bg-white text-slate-800 text-xs font-bold uppercase tracking-wider border border-slate-200 px-3.5 py-2 rounded-xl focus:outline-none focus:border-slate-950 cursor-pointer shadow-xs'
+        >
+          <option value="" className="bg-white text-slate-800">Sort By: Default</option>
+          <option value="priceAsc" className="bg-white text-slate-800">Price: Low to High</option>
+          <option value="priceDesc" className="bg-white text-slate-800">Price: High to Low</option>
+          <option value="popularity" className="bg-white text-slate-800">Popularity</option>
+        </select>
+      </div>
     </div>
   )
 }
 
 export default SortOptions
+
+

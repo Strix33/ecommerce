@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { AuthContext } from '../../context/AuthContext';
+import { API_URL } from '../../config';
 import { toast } from 'sonner';
 
 const UserManagement = () => {
@@ -43,8 +44,7 @@ const UserManagement = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Register new user via backend API
-            const response = await fetch("http://localhost:9000/api/users/register", {
+            const response = await fetch(`${API_URL}/api/users/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -62,7 +62,7 @@ const UserManagement = () => {
                 password: "",
                 role: "customer",
             });
-            loadUsers(); // Refresh list
+            loadUsers();
         } catch (error) {
             toast.error(error.message || "Error adding user");
         }
@@ -72,7 +72,7 @@ const UserManagement = () => {
         try {
             await updateUser(userId, { role: newRole }, token);
             toast.success("User role updated successfully!");
-            loadUsers(); // Refresh
+            loadUsers();
         } catch (error) {
             toast.error(error.message || "Failed to update role");
         }
@@ -83,7 +83,7 @@ const UserManagement = () => {
             try {
                 await deleteUser(userId, token);
                 toast.success("User removed successfully!");
-                loadUsers(); // Refresh
+                loadUsers();
             } catch (error) {
                 toast.error(error.message || "Failed to delete user");
             }
@@ -92,102 +92,102 @@ const UserManagement = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center py-24 bg-gray-50">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+            <div className="flex justify-center items-center py-24">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-950"></div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-white border border-gray-100 shadow-sm rounded-xl mt-4">
-            <h2 className="text-2xl font-extrabold mb-8 text-gray-900 tracking-wide uppercase">User Management</h2>
+        <div className="clean-card p-6 sm:p-8 rounded-3xl">
+            <h2 className="text-xl sm:text-2xl font-black mb-6 text-slate-950 tracking-tight uppercase font-heading">User Roster & Roles</h2>
             
             {/* Add User Section */}
-            <div className="p-6 rounded-xl border border-gray-100 bg-gray-50 mb-8 max-w-2xl">
-                <h3 className="text-sm font-bold mb-4 uppercase tracking-wider text-gray-700">Add New User</h3>
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 mb-8 max-w-3xl">
+                <h3 className="text-xs font-bold mb-3 uppercase tracking-wider text-slate-900">Provision New User Account</h3>
+                <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div>
-                        <label className='block text-gray-600 text-xs font-semibold mb-1'>Name</label>
+                        <label className='block text-slate-700 text-xs font-bold uppercase tracking-wider mb-1'>Name</label>
                         <input 
                             type="text" 
                             name='name' 
                             value={formData.name} 
                             onChange={handleChange} 
-                            className='w-full p-2.5 border rounded-lg bg-white focus:ring-1 focus:ring-black'
+                            className='w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:border-slate-950'
                             placeholder="Full name"
                             required
                         />
                     </div>
                     <div>
-                        <label className='block text-gray-600 text-xs font-semibold mb-1'>Email</label>
+                        <label className='block text-slate-700 text-xs font-bold uppercase tracking-wider mb-1'>Email</label>
                         <input 
                             type="email" 
                             name='email' 
                             value={formData.email} 
                             onChange={handleChange} 
-                            className='w-full p-2.5 border rounded-lg bg-white focus:ring-1 focus:ring-black'
+                            className='w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:border-slate-950'
                             placeholder="Email address"
                             required
                         />
                     </div>
                     <div>
-                        <label className='block text-gray-600 text-xs font-semibold mb-1'>Password</label>
+                        <label className='block text-slate-700 text-xs font-bold uppercase tracking-wider mb-1'>Password</label>
                         <input 
                             type="password" 
                             name='password' 
                             value={formData.password} 
                             onChange={handleChange} 
-                            className='w-full p-2.5 border rounded-lg bg-white focus:ring-1 focus:ring-black'
+                            className='w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:border-slate-950'
                             placeholder="Password"
                             required
                         />
                     </div>
                     <div>
-                        <label className='block text-gray-600 text-xs font-semibold mb-1'>Role</label>
+                        <label className='block text-slate-700 text-xs font-bold uppercase tracking-wider mb-1'>Role</label>
                         <select 
                             name="role" 
                             value={formData.role} 
                             onChange={handleChange}
-                            className='w-full p-2.5 border rounded-lg bg-white focus:ring-1 focus:ring-black font-semibold text-sm'
+                            className='w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 font-bold text-xs focus:outline-none focus:border-slate-950'
                         >
                             <option value="customer">Customer</option>
                             <option value="admin">Admin</option>
                         </select>
                     </div>
-                    <div className="sm:col-span-2 mt-2">
+                    <div className="sm:col-span-2 mt-1">
                         <button 
                             type='submit'
-                            className='bg-black text-white py-2.5 px-6 rounded-lg font-bold text-xs uppercase tracking-wider hover:bg-gray-800 transition shadow-sm'
+                            className='bg-slate-950 text-white py-3 px-5 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-xs'
                         >
-                            Add User
+                            Create User Account
                         </button>
                     </div>
                 </form>
             </div>
 
             {/* Users List */}
-            <div className="overflow-x-auto rounded-lg border border-gray-100">
-                <table className='min-w-full text-left text-gray-500'>
-                    <thead className="bg-gray-50 text-xs font-bold uppercase text-gray-700 border-b">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200">
+                <table className='min-w-full text-left text-slate-700'>
+                    <thead className="bg-slate-50 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200 tracking-wider">
                         <tr>
-                            <th className='py-3.5 px-4'>Name</th>
-                            <th className='py-3.5 px-4'>Email</th>
-                            <th className='py-3.5 px-4 text-center'>Role Access</th>
-                            <th className='py-3.5 px-4 text-right'>Actions</th>
+                            <th className='py-3 px-4'>User</th>
+                            <th className='py-3 px-4'>Email</th>
+                            <th className='py-3 px-4 text-center'>Role Access</th>
+                            <th className='py-3 px-4 text-right'>Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-slate-100">
                         {users.map((userItem) => (
-                            <tr key={userItem._id} className='hover:bg-gray-50 transition border-b border-gray-50 last:border-0'>
-                                <td className='py-3 px-4 font-semibold text-gray-900 text-sm'>
+                            <tr key={userItem._id} className='hover:bg-slate-50 transition border-b border-slate-100 last:border-0'>
+                                <td className='py-3 px-4 font-bold text-slate-950 text-xs'>
                                     {userItem.name}
                                 </td>
-                                <td className='py-3 px-4 text-sm font-medium'>{userItem.email}</td>
+                                <td className='py-3 px-4 text-xs font-mono text-slate-500'>{userItem.email}</td>
                                 <td className='py-3 px-4 text-center'>
                                     <select 
                                         value={userItem.role} 
                                         onChange={(e) => handleRoleChange(userItem._id, e.target.value)}
-                                        className='p-1.5 border rounded-lg font-semibold text-xs uppercase'
+                                        className='p-1 bg-white border border-slate-200 rounded-lg font-bold text-[10px] uppercase text-slate-900 focus:outline-none'
                                     >
                                         <option value="customer">Customer</option>
                                         <option value="admin">Admin</option>
@@ -196,7 +196,7 @@ const UserManagement = () => {
                                 <td className='py-3 px-4 text-right'>
                                     <button 
                                         onClick={() => handleDeleteUser(userItem._id)}
-                                        className='bg-red-500 hover:bg-red-600 text-white font-bold text-xs uppercase tracking-wider px-3.5 py-1.5 rounded transition shadow-sm'
+                                        className='bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg transition-colors'
                                     >
                                         Delete
                                     </button>
@@ -211,3 +211,4 @@ const UserManagement = () => {
 };
 
 export default UserManagement;
+

@@ -24,7 +24,7 @@ const Profile = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <p className="text-xl">Loading your profile...</p>
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-950"></div>
             </div>
         );
     }
@@ -32,27 +32,33 @@ const Profile = () => {
     if (!user) return null;
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <div className="flex-grow container mx-auto p-4 md:p-6">
-                <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
-                    {/* Left Section */}
-                    <div className="w-full md:w-1/3 lg:w-1/4 shadow-md rounded-lg p-6 bg-white border border-gray-100">
-                        <h1 className="text-2xl md:text-3xl font-bold mb-2">{user.name}</h1>
-                        <p className="text-lg text-gray-600 mb-6">{user.email}</p>
-                        <div className="mb-4">
-                            <span className="px-3 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full uppercase">
-                                Role: {user.role}
+        <div className="min-h-[85vh] flex flex-col py-8">
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6">
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Left Profile Section */}
+                    <div className="w-full lg:w-1/3 clean-card rounded-3xl p-6 sm:p-8 h-fit">
+                        <div className="w-16 h-16 rounded-2xl bg-slate-950 flex items-center justify-center text-white font-black text-2xl mb-4">
+                            {user.name.charAt(0).toUpperCase()}
+                        </div>
+                        <h1 className="text-xl font-black uppercase text-slate-950 font-heading tracking-tight mb-1">{user.name}</h1>
+                        <p className="text-xs text-slate-500 mb-4">{user.email}</p>
+                        
+                        <div className="mb-6 inline-block">
+                            <span className="px-2.5 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-bold rounded uppercase tracking-wider">
+                                ROLE: {user.role}
                             </span>
                         </div>
+                        
                         <button 
                             onClick={handleLogout}
-                            className="w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition"
+                            className="w-full bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
                         >
-                            Logout
+                            Sign Out
                         </button>
                     </div>
-                    {/* Right Section */}
-                    <div className="w-full md:w-2/3 lg:w-3/4">
+
+                    {/* Right Orders Section */}
+                    <div className="w-full lg:w-2/3">
                         <MyOrdersPage />
                     </div>
                 </div>
@@ -62,3 +68,4 @@ const Profile = () => {
 }
 
 export default Profile;
+

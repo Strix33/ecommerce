@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 const EditProductPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { fetchSingleProduct, createProduct, updateProduct, loading } = useContext(ProductContext);
+    const { fetchSingleProduct, createProduct, updateProduct } = useContext(ProductContext);
     const { token } = useContext(AuthContext);
 
     const [productData, setProductData] = useState({
@@ -17,10 +17,10 @@ const EditProductPage = () => {
         countInStock: 0,
         sku: "",
         category: "Top Wear",
-        brand: "",
+        brand: "HYPEWEAR",
         sizes: [],
         colors: [],
-        collection: "Casual Wear",
+        collection: "Urban Hype",
         material: "",
         gender: "Unisex",
         images: []
@@ -41,10 +41,10 @@ const EditProductPage = () => {
                             countInStock: data.countInStock || 0,
                             sku: data.sku || "",
                             category: data.category || "Top Wear",
-                            brand: data.brand || "",
+                            brand: data.brand || "HYPEWEAR",
                             sizes: data.sizes || [],
                             colors: data.colors || [],
-                            collection: data.collection || "Casual Wear",
+                            collection: data.collection || "Urban Hype",
                             material: data.material || "",
                             gender: data.gender || "Unisex",
                             images: data.images || []
@@ -107,44 +107,44 @@ const EditProductPage = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white border border-gray-100 shadow-sm rounded-xl mt-4">
-            <h2 className="text-3xl font-extrabold mb-8 text-gray-900 tracking-wide uppercase">
-                {id === "new" ? "Add New Product" : "Edit Product"}
+        <div className="clean-card p-6 sm:p-8 rounded-3xl max-w-4xl mx-auto">
+            <h2 className="text-xl sm:text-2xl font-black mb-6 text-slate-950 tracking-tight uppercase font-heading">
+                {id === "new" ? "Create New Product" : "Edit Product"}
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
                 
                 {/* Product Name */}
                 <div>
-                    <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Product Name</label>
+                    <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Product Name</label>
                     <input
                         type='text'
                         name='name'
                         value={productData.name}
                         onChange={handleChange}
-                        className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
-                        placeholder="e.g. Classic Cotton Henley"
+                        className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                        placeholder="e.g. HYPEWEAR Minimalist Hoodie"
                         required
                     />
                 </div>
 
                 {/* Description */}
                 <div>
-                    <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Description</label>
+                    <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Description</label>
                     <textarea 
                         name='description' 
                         value={productData.description}
                         onChange={handleChange}
-                        className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
-                        placeholder="Write a clear details overview..."
+                        className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                        placeholder="Describe the product details..."
                         rows={4}
                         required
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {/* Price */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Price ($)</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Price ($)</label>
                         <input
                             type='number'
                             name='price'
@@ -152,44 +152,44 @@ const EditProductPage = () => {
                             step="0.01"
                             value={productData.price}
                             onChange={handleChange}
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black font-semibold'
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-950 font-bold text-xs focus:outline-none focus:border-slate-950 transition-colors'
                             required
                         />
                     </div>
 
                     {/* Stock */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Count in Stock</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Count in Stock</label>
                         <input
                             type='number'
                             name='countInStock'
                             min={0}
                             value={productData.countInStock}
                             onChange={handleChange}
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black font-semibold'
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-950 font-bold text-xs focus:outline-none focus:border-slate-950 transition-colors'
                             required
                         />
                     </div>
 
                     {/* SKU */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>SKU</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>SKU</label>
                         <input
                             type='text'
                             name='sku'
                             value={productData.sku}
                             onChange={handleChange}
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black font-semibold'
-                            placeholder="e.g. HNL-SH-001"
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 font-mono text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                            placeholder="e.g. HYP-HD-001"
                             required
                         />
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Sizes */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Sizes (comma-separated)</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Sizes (comma-separated)</label>
                         <input
                             type='text'
                             name='sizes'
@@ -200,14 +200,14 @@ const EditProductPage = () => {
                                     sizes: e.target.value.split(",").map((size) => size.trim()).filter(Boolean),
                                 })
                             }
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
                             placeholder="S, M, L, XL"
                         />
                     </div>
 
                     {/* Colors */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Colors (comma-separated)</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Colors (comma-separated)</label>
                         <input
                             type='text'
                             name='colors'
@@ -218,62 +218,62 @@ const EditProductPage = () => {
                                     colors: e.target.value.split(",").map((color) => color.trim()).filter(Boolean),
                                 })
                             }
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
-                            placeholder="Black, White, Blue"
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                            placeholder="Slate, White, Black"
                         />
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     {/* Brand */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Brand</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Brand</label>
                         <input
                             type='text'
                             name='brand'
                             value={productData.brand}
                             onChange={handleChange}
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
-                            placeholder="Urban Threads"
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                            placeholder="HYPEWEAR"
                             required
                         />
                     </div>
 
                     {/* Material */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Material</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Material</label>
                         <input
                             type='text'
                             name='material'
                             value={productData.material}
                             onChange={handleChange}
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
-                            placeholder="Cotton / Leather"
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                            placeholder="Heavy Cotton"
                         />
                     </div>
 
                     {/* Collection */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Collection</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Collection</label>
                         <input
                             type='text'
                             name='collection'
                             value={productData.collection}
                             onChange={handleChange}
-                            className='w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black'
-                            placeholder="Casual Wear"
+                            className='w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950 transition-colors'
+                            placeholder="Urban Hype"
                             required
                         />
                     </div>
 
                     {/* Gender */}
                     <div>
-                        <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Gender</label>
+                        <label className='block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5'>Gender</label>
                         <select
                             name="gender"
                             value={productData.gender}
                             onChange={handleChange}
-                            className="w-full border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black font-semibold text-sm"
+                            className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 font-bold text-xs focus:outline-none focus:border-slate-950 transition-colors"
                         >
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
@@ -283,30 +283,30 @@ const EditProductPage = () => {
                 </div>
 
                 {/* Image List & Add URL */}
-                <div className="border p-5 rounded-xl bg-gray-50">
-                    <label className='block text-sm font-bold text-gray-700 uppercase tracking-wider mb-2'>Product Images</label>
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                    <label className='block text-xs font-bold text-slate-900 uppercase tracking-wider mb-2'>Product Images</label>
                     
-                    <div className="flex gap-2 mb-4">
+                    <div className="flex gap-2 mb-3">
                         <input 
                             type="text" 
                             value={imageUrlInput}
                             onChange={(e) => setImageUrlInput(e.target.value)}
-                            className="flex-grow border border-gray-200 rounded-lg p-2.5 focus:ring-1 focus:ring-black bg-white"
-                            placeholder="Paste image URL here..."
+                            className="flex-grow bg-white border border-slate-200 rounded-xl p-2.5 text-slate-900 text-xs focus:outline-none focus:border-slate-950"
+                            placeholder="Paste image URL..."
                         />
                         <button 
                             type="button" 
                             onClick={handleAddImageUrl}
-                            className="bg-black text-white px-5 rounded-lg font-bold text-xs uppercase tracking-wide hover:bg-gray-800 transition"
+                            className="bg-slate-950 text-white px-5 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-slate-800 transition-colors"
                         >
-                            Add URL
+                            Add Image
                         </button>
                     </div>
 
                     {productData.images.length > 0 ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                             {productData.images.map((image, index) => (
-                                <div key={index} className="relative group overflow-hidden rounded-lg shadow-sm border border-gray-200 bg-white">
+                                <div key={index} className="relative group overflow-hidden rounded-xl border border-slate-200 bg-white">
                                     <img 
                                         src={image.url} 
                                         alt={image.alt || "Product thumbnail"}
@@ -315,7 +315,7 @@ const EditProductPage = () => {
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveImage(index)}
-                                        className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 text-[10px] shadow-md transition"
+                                        className="absolute top-1 right-1 bg-rose-600 hover:bg-rose-700 text-white rounded-full p-1 text-[10px] shadow-xs transition-colors"
                                     >
                                         ✕
                                     </button>
@@ -323,24 +323,24 @@ const EditProductPage = () => {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-gray-400 text-xs mt-2 italic">No images added yet. Add an image URL above.</p>
+                        <p className="text-slate-400 text-xs">No images attached. Add an image URL above.</p>
                     )}
                 </div>
 
                 {/* Actions Row */}
-                <div className="flex justify-end gap-3 border-t pt-6">
+                <div className="flex justify-end gap-2 border-t border-slate-100 pt-5">
                     <button 
                         type='button' 
                         onClick={() => navigate("/admin/products")}
-                        className='bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-3 rounded-lg text-sm transition'
+                        className='bg-white border border-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider hover:bg-slate-50 transition-colors'
                     >
                         Cancel
                     </button>
                     <button 
                         type='submit' 
-                        className='bg-black hover:bg-gray-900 text-white font-bold px-8 py-3 rounded-lg text-sm transition shadow-sm'
+                        className='bg-slate-950 text-white font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-xs'
                     >
-                        {id === "new" ? "Create Product" : "Update Product"}
+                        {id === "new" ? "Save Product" : "Save Changes"}
                     </button>
                 </div>
             </form>
@@ -349,3 +349,4 @@ const EditProductPage = () => {
 };
 
 export default EditProductPage;
+

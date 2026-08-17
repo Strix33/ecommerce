@@ -32,7 +32,7 @@ const OrderManagement = () => {
         try {
             await toggleDeliveryStatus(orderId, token);
             toast.success("Order status updated successfully!");
-            loadOrders(); // Refresh list
+            loadOrders();
         } catch (error) {
             toast.error(error.message || "Failed to update order status");
         }
@@ -40,67 +40,67 @@ const OrderManagement = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center py-24 bg-gray-50">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+            <div className="flex justify-center items-center py-24">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-950"></div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-white border border-gray-100 shadow-sm rounded-xl mt-4">
-            <h2 className="text-2xl font-extrabold mb-6 text-gray-900 tracking-wide uppercase">Order Management</h2>
+        <div className="clean-card p-6 sm:p-8 rounded-3xl">
+            <h2 className="text-xl sm:text-2xl font-black mb-6 text-slate-950 tracking-tight uppercase font-heading">Orders Queue</h2>
 
-            <div className="overflow-x-auto rounded-lg border border-gray-100">
-                <table className="min-w-full text-left text-gray-500">
-                    <thead className="bg-gray-50 text-xs font-bold uppercase text-gray-700 border-b">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200">
+                <table className="min-w-full text-left text-slate-700">
+                    <thead className="bg-slate-50 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200 tracking-wider">
                         <tr>
-                            <th className="py-3.5 px-4">Order ID</th>
-                            <th className="py-3.5 px-4">Customer</th>
-                            <th className="py-3.5 px-4 text-center font-bold">Total Price</th>
-                            <th className="py-3.5 px-4 text-center">Payment</th>
-                            <th className="py-3.5 px-4 text-center">Delivery Status</th>
-                            <th className="py-3.5 px-4 text-right">Actions</th>
+                            <th className="py-3 px-4">Order ID</th>
+                            <th className="py-3 px-4">Customer</th>
+                            <th className="py-3 px-4 text-center">Total</th>
+                            <th className="py-3 px-4 text-center">Payment</th>
+                            <th className="py-3 px-4 text-center">Fulfillment</th>
+                            <th className="py-3 px-4 text-right">Fulfillment Action</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-slate-100">
                         {orders.length > 0 ? (
                             orders.map((order) => (
-                                <tr key={order._id} className="hover:bg-gray-50 border-b border-gray-50 last:border-0 transition">
-                                    <td className="py-4 px-4 font-bold text-gray-900 text-sm whitespace-nowrap">
-                                        <Link to={`/order/${order._id}`} className="text-blue-500 hover:underline">
+                                <tr key={order._id} className="hover:bg-slate-50 border-b border-slate-100 last:border-0 transition">
+                                    <td className="py-3 px-4 font-bold text-slate-950 text-xs whitespace-nowrap">
+                                        <Link to={`/order/${order._id}`} className="text-slate-900 hover:underline">
                                             #{order._id.slice(-6).toUpperCase()}
                                         </Link>
                                     </td>
-                                    <td className="p-4 text-sm font-semibold">{order.user ? order.user.name : "Deleted User"}</td>
-                                    <td className="p-4 text-center font-bold text-gray-900 text-sm">${order.totalPrice.toLocaleString()}</td>
-                                    <td className="p-4 text-center">
-                                        <span className={`${order.isPaid ? "bg-green-50 text-green-700 border-green-200" : "bg-amber-50 text-amber-700 border-amber-200"} px-2.5 py-0.5 rounded-full text-xs font-bold border`}>
+                                    <td className="p-3.5 text-xs font-semibold text-slate-800">{order.user ? order.user.name : "Guest / Deleted"}</td>
+                                    <td className="p-3.5 text-center font-black text-slate-950 text-xs">${order.totalPrice.toLocaleString()}</td>
+                                    <td className="p-3.5 text-center">
+                                        <span className={`${order.isPaid ? "badge-emerald" : "badge-amber"} px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider`}>
                                             {order.isPaid ? "Paid" : "Pending"}
                                         </span>
                                     </td>
-                                    <td className="p-4 text-center">
-                                        <span className={`${order.isDelivered ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-gray-50 text-gray-500 border-gray-200"} px-2.5 py-0.5 rounded-full text-xs font-bold border`}>
+                                    <td className="p-3.5 text-center">
+                                        <span className={`${order.isDelivered ? "bg-blue-50 text-blue-700 border border-blue-200" : "bg-slate-100 text-slate-600 border border-slate-200"} px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider`}>
                                             {order.isDelivered ? "Delivered" : "Processing"}
                                         </span>
                                     </td>
-                                    <td className="p-4 text-right">
+                                    <td className="p-3.5 text-right">
                                         <button 
                                             onClick={() => handleDeliveryToggle(order._id)}
                                             className={`${
                                                 order.isDelivered 
-                                                    ? "bg-amber-500 hover:bg-amber-600" 
-                                                    : "bg-green-500 hover:bg-green-600"
-                                            } text-white font-bold text-xs uppercase tracking-wider px-3.5 py-1.5 rounded transition shadow-sm`}
+                                                    ? "bg-white hover:bg-slate-100 text-slate-700 border border-slate-200" 
+                                                    : "bg-slate-950 hover:bg-slate-800 text-white shadow-xs"
+                                            } font-bold text-[10px] uppercase tracking-wider px-3.5 py-1.5 rounded-lg transition-colors`}
                                         >
-                                            {order.isDelivered ? "Mark Processing" : "Mark Shipped"}
+                                            {order.isDelivered ? "Revert Processing" : "Dispatch Order"}
                                         </button>
                                     </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={6} className="p-8 text-center text-gray-500 font-semibold text-sm">
-                                    No orders found in the database.
+                                <td colSpan={6} className="p-8 text-center text-slate-400 font-medium text-xs">
+                                    No orders found in queue.
                                 </td>
                             </tr>
                         )}
@@ -112,3 +112,5 @@ const OrderManagement = () => {
 };
 
 export default OrderManagement;
+
+

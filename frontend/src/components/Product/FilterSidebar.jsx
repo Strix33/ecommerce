@@ -59,7 +59,7 @@ const FilterSidebar = () => {
     const params = Object.fromEntries([...searchParams]);
     setFilters({
       category: params.category || "",
-      gender: params.gender || "", // Fixed the bug: was params.color || ""
+      gender: params.gender || "",
       color: params.color || "",
       size: params.size ? params.size.split(",") : [],
       material: params.material ? params.material.split(",") : [],
@@ -81,7 +81,6 @@ const FilterSidebar = () => {
         newFilters[name] = (newFilters[name] || []).filter((item) => item !== value);
       }
     } else {
-      // Toggle radio button if clicked again
       if (newFilters[name] === value) {
         newFilters[name] = "";
       } else {
@@ -101,8 +100,6 @@ const FilterSidebar = () => {
 
   const updateURLParams = (newFilters) => {
     const params = new URLSearchParams(searchParams);
-    
-    // Always reset page to 1 when filters change
     params.set("page", "1");
 
     Object.keys(newFilters).forEach((key) => {
@@ -147,66 +144,54 @@ const FilterSidebar = () => {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6 border-b pb-2">
-        <h3 className="text-xl font-bold text-gray-800">Filter By</h3>
+    <div className="p-6 clean-card rounded-3xl text-slate-800">
+      <div className="flex justify-between items-center mb-5 border-b border-slate-100 pb-3">
+        <h3 className="text-sm font-black uppercase tracking-wider font-heading text-slate-950">Filters</h3>
         <button 
           onClick={handleClearAll}
-          className="text-xs text-red-500 font-semibold hover:underline"
+          className="text-xs text-rose-600 font-bold uppercase tracking-wider hover:underline"
         >
           Clear All
         </button>
       </div>
 
       {/* Category Filter */}
-      <div className="mb-6 border-b pb-4">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>Category</label>
+      <div className="mb-5 border-b border-slate-100 pb-4">
+        <label className='block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider'>Category</label>
         {categories.map((category) => (
-          <div key={category} className="flex items-center mb-2">
-            <input
-              type='radio'
-              name='category'
-              value={category}
-              onClick={handleFilterChange}
-              onChange={() => {}} // dummy onChange to prevent react warnings
-              checked={filters.category === category}
-              className='mr-2 h-4 w-4 text-black focus:ring-black border-gray-300'
-            />
-            <span className="text-gray-700 text-sm font-medium">{category}</span>
+          <div key={category} className="flex items-center mb-2 cursor-pointer" onClick={() => handleFilterChange({ target: { name: 'category', value: category, type: 'radio' } })}>
+            <div className={`w-4 h-4 rounded-full border flex items-center justify-center mr-2.5 transition-colors ${filters.category === category ? "border-slate-950 bg-slate-950" : "border-slate-300 bg-white"}`}>
+              {filters.category === category && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+            </div>
+            <span className={`text-xs font-medium ${filters.category === category ? "text-slate-950 font-bold" : "text-slate-600"}`}>{category}</span>
           </div>
         ))}
       </div>
 
       {/* Gender Filter */}
-      <div className="mb-6 border-b pb-4">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>Gender</label>
+      <div className="mb-5 border-b border-slate-100 pb-4">
+        <label className='block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider'>Gender</label>
         {genders.map((gender) => (
-          <div key={gender} className="flex items-center mb-2">
-            <input
-              type='radio'
-              name='gender'
-              value={gender}
-              onClick={handleFilterChange}
-              onChange={() => {}} // dummy onChange
-              checked={filters.gender === gender}
-              className='mr-2 h-4 w-4 text-black focus:ring-black border-gray-300'
-            />
-            <span className="text-gray-700 text-sm font-medium">{gender}</span>
+          <div key={gender} className="flex items-center mb-2 cursor-pointer" onClick={() => handleFilterChange({ target: { name: 'gender', value: gender, type: 'radio' } })}>
+            <div className={`w-4 h-4 rounded-full border flex items-center justify-center mr-2.5 transition-colors ${filters.gender === gender ? "border-slate-950 bg-slate-950" : "border-slate-300 bg-white"}`}>
+              {filters.gender === gender && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+            </div>
+            <span className={`text-xs font-medium ${filters.gender === gender ? "text-slate-950 font-bold" : "text-slate-600"}`}>{gender}</span>
           </div>
         ))}
       </div>
 
       {/* Color Filter */}
-      <div className="mb-6 border-b pb-4">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>Color</label>
-        <div className="flex flex-wrap gap-2.5">
+      <div className="mb-5 border-b border-slate-100 pb-4">
+        <label className='block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider'>Color</label>
+        <div className="flex flex-wrap gap-2">
           {colors.map((color) => (
             <button
               key={color}
               onClick={() => handleColorClick(color)}
-              className={`w-7 h-7 rounded-full border border-gray-300 cursor-pointer transition hover:scale-110 active:scale-95 shadow-sm
-                ${filters.color === color ? "ring-2 ring-black ring-offset-2" : ""}`}
-              style={{ backgroundColor: color.toLowerCase() }}
+              className={`w-6 h-6 rounded-full border border-slate-300 cursor-pointer transition-all hover:scale-105
+                ${filters.color === color ? "ring-2 ring-slate-950 ring-offset-2 border-slate-950" : ""}`}
+              style={{ backgroundColor: color.toLowerCase() === 'white' ? '#FFFFFF' : color.toLowerCase() }}
               title={color}
             />
           ))}
@@ -214,65 +199,81 @@ const FilterSidebar = () => {
       </div>
 
       {/* Size filter */}
-      <div className="mb-6 border-b pb-4">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>Size</label>
-        <div className="grid grid-cols-3 gap-2">
-          {sizes.map((size) => (
-            <label key={size} className="flex items-center p-2 border rounded-md cursor-pointer hover:bg-gray-50 transition text-sm">
-              <input
-                type='checkbox'
-                name='size'
-                value={size}
-                onChange={handleFilterChange}
-                checked={filters.size.includes(size)}
-                className='mr-2 h-4 w-4 rounded text-black focus:ring-black border-gray-300'
-              />
-              <span className='text-gray-700 font-medium'>{size}</span>
-            </label>
-          ))}
+      <div className="mb-5 border-b border-slate-100 pb-4">
+        <label className='block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider'>Size</label>
+        <div className="grid grid-cols-3 gap-1.5">
+          {sizes.map((size) => {
+            const isSelected = filters.size.includes(size);
+            return (
+              <label 
+                key={size} 
+                className={`flex items-center justify-center p-2 rounded-lg border text-xs font-bold cursor-pointer transition-all ${isSelected ? "bg-slate-950 text-white border-slate-950" : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"}`}
+              >
+                <input
+                  type='checkbox'
+                  name='size'
+                  value={size}
+                  onChange={handleFilterChange}
+                  checked={isSelected}
+                  className='hidden'
+                />
+                <span>{size}</span>
+              </label>
+            )
+          })}
         </div>
       </div>
 
       {/* Material filter */}
-      <div className="mb-6 border-b pb-4">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>Material</label>
-        {materials.map((mat) => (
-          <div key={mat} className="flex items-center mb-2">
-            <input
-              type='checkbox'
-              name='material'
-              value={mat}
-              onChange={handleFilterChange}
-              checked={filters.material.includes(mat)}
-              className='mr-2 h-4 w-4 rounded text-black focus:ring-black border-gray-300'
-            />
-            <span className='text-gray-700 text-sm font-medium'>{mat}</span>
-          </div>
-        ))}
+      <div className="mb-5 border-b border-slate-100 pb-4">
+        <label className='block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider'>Material</label>
+        <div className="space-y-1.5">
+          {materials.map((mat) => {
+            const isChecked = filters.material.includes(mat);
+            return (
+              <label key={mat} className="flex items-center cursor-pointer">
+                <input
+                  type='checkbox'
+                  name='material'
+                  value={mat}
+                  onChange={handleFilterChange}
+                  checked={isChecked}
+                  className='mr-2.5 h-3.5 w-3.5 rounded border-slate-300 text-slate-900 focus:ring-slate-900'
+                />
+                <span className={`text-xs ${isChecked ? "text-slate-950 font-bold" : "text-slate-600"}`}>{mat}</span>
+              </label>
+            );
+          })}
+        </div>
       </div>
 
       {/* Brand filter */}
-      <div className="mb-6 border-b pb-4">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>Brand</label>
-        {brands.map((brand) => (
-          <div key={brand} className="flex items-center mb-2">
-            <input
-              type='checkbox'
-              name='brand'
-              value={brand}
-              onChange={handleFilterChange}
-              checked={filters.brand.includes(brand)}
-              className='mr-2 h-4 w-4 rounded text-black focus:ring-black border-gray-300'
-            />
-            <span className='text-gray-700 text-sm font-medium'>{brand}</span>
-          </div>
-        ))}
+      <div className="mb-5 border-b border-slate-100 pb-4">
+        <label className='block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider'>Brand</label>
+        <div className="space-y-1.5">
+          {brands.map((brand) => {
+            const isChecked = filters.brand.includes(brand);
+            return (
+              <label key={brand} className="flex items-center cursor-pointer">
+                <input
+                  type='checkbox'
+                  name='brand'
+                  value={brand}
+                  onChange={handleFilterChange}
+                  checked={isChecked}
+                  className='mr-2.5 h-3.5 w-3.5 rounded border-slate-300 text-slate-900 focus:ring-slate-900'
+                />
+                <span className={`text-xs ${isChecked ? "text-slate-950 font-bold" : "text-slate-600"}`}>{brand}</span>
+              </label>
+            );
+          })}
+        </div>
       </div>
 
       {/* Price Range Filter */}
-      <div className="mb-6">
-        <label className='block text-gray-800 font-bold mb-3 text-sm uppercase tracking-wide'>
-          Max Price
+      <div>
+        <label className='block text-xs font-bold text-slate-900 mb-2 uppercase tracking-wider'>
+          Max Price: <span className="text-slate-950 font-black">${priceRange[1]}</span>
         </label>
         <input 
           type="range" 
@@ -281,11 +282,11 @@ const FilterSidebar = () => {
           max={100} 
           value={priceRange[1]} 
           onChange={handlePriceChange}
-          className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black'
+          className='w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-950'
         />
-        <div className="flex justify-between text-gray-600 font-semibold text-xs mt-2">
+        <div className="flex justify-between text-slate-500 font-semibold text-[10px] mt-1.5">
           <span>$0</span>
-          <span>${priceRange[1]}</span>
+          <span>$100</span>
         </div>
       </div>
     </div>
@@ -293,3 +294,4 @@ const FilterSidebar = () => {
 }
 
 export default FilterSidebar;
+

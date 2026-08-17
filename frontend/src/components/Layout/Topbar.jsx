@@ -5,25 +5,25 @@ import {RiTwitterXLine} from "react-icons/ri"
 
 const Topbar = () => {
   return (
-    <div className="bg-[#ea2e0e] text-white">
-      <div className="container mx-auto flex justify-between items-center py-3 px-4">
-        <div className="hidden md:flex items-center space-x-4">
-            <a href="#" className="hover:text-gray-300">
-            <TbBrandMeta className="h-5 w-5"/>
+    <div className="bg-slate-950 text-slate-300 text-[11px] font-medium border-b border-slate-800">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-2 px-4 sm:px-6">
+        <div className="hidden md:flex items-center space-x-3">
+            <a href="#" className="hover:text-white transition-colors p-1">
+              <TbBrandMeta className="h-3.5 w-3.5"/>
             </a>
-            <a href="#" className="hover:text-gray-300">
-            <IoLogoInstagram className="h5 w-5"/>
+            <a href="#" className="hover:text-white transition-colors p-1">
+              <IoLogoInstagram className="h-3.5 w-3.5"/>
             </a>
-            <a href="#" className="hover:text-gray-300">
-            <RiTwitterXLine className="h-4 w-4"/>
+            <a href="#" className="hover:text-white transition-colors p-1">
+              <RiTwitterXLine className="h-3.5 w-3.5"/>
             </a>
         </div>
-        <div className="text-sm text-center flex-grow">
-            <span>We ship worldwide - Fast and relaible shipping!</span>
+        <div className="text-center flex-grow font-semibold tracking-wider uppercase text-[10px] text-slate-200">
+            <span>FREE EXPRESS SHIPPING ON ALL ORDERS OVER $100</span>
         </div>
-        <div className="text-sm hidden md:block">
-            <a href="tel:+1234567890" className="hover:text-gray-300 ">
-                +1 (234) 567-890
+        <div className="hidden md:block font-mono text-[11px] text-slate-400">
+            <a href="tel:+18005554973" className="hover:text-white transition-colors">
+                +1 (800) 555-HYPE
             </a>
         </div>
       </div>
@@ -32,3 +32,5 @@ const Topbar = () => {
 };
 
 export default Topbar;
+
+
